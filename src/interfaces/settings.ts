@@ -1,3 +1,4 @@
 export interface Settings {
-  showExplorerRevealButton: boolean;
+  showFileExplorerRevealButton: boolean;
+  showViewActionsRevealButton: boolean;
 }

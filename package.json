@@ -5,9 +5,10 @@
 	"main": "dist/main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
+		"copy-to-vault:watch": "cpx dist/** \"E:/Projects/Obsidian/Obsidian Vault Testing/.obsidian/plugins/obsidian-file-explorer-pro\" --watch",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
-		"release": "cpx src/styles.css dist && cpx manifest.json dist"
+		"copy-to-dist": "cpx src/styles.css dist && cpx manifest.json dist"
 	},
 	"keywords": [],
 	"author": "",

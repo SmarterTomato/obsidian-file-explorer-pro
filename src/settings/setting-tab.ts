@@ -17,11 +17,22 @@ export class SettingTab extends PluginSettingTab {
     containerEl.createEl('h2', { text: 'General Settings' });
 
     new Setting(containerEl)
-      .setName('Show Explorer Reveal Button')
+      .setName('Show Reveal Active File Button in File Explorer')
       .addToggle(toggle => toggle
-        .setValue(this.plugin.settings.showExplorerRevealButton)
+        .setValue(this.plugin.settings.showFileExplorerRevealButton)
         .onChange(async (value) => {
-          this.plugin.settings.showExplorerRevealButton = value;
+          this.plugin.settings.showFileExplorerRevealButton = value;
+          this.plugin.fileExplorerManager.showFileExplorerRevealButton(value);
+          await this.plugin.saveSettings();
+        }));
+
+    new Setting(containerEl)
+      .setName('Show Reveal Active File Button in View Actions')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.showFileExplorerRevealButton)
+        .onChange(async (value) => {
+          this.plugin.settings.showViewActionsRevealButton = value;
+          this.plugin.fileExplorerManager.showViewActionsRevealButton(value);
           await this.plugin.saveSettings();
         }));
   }
