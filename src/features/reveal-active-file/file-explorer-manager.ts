@@ -3,9 +3,9 @@ import { CommandIds } from "src/obsidian/obsidian-constants";
 import { ElementFactory } from "src/utils/element-factory";
 import { Icons } from "src/utils/icons";
 
-export class FileExplorerManager {
+export class RevealActiveFileManager {
   private revealActiveFileIcon = Icons.MyLocation;
-  private revealActiveFileTooltips = 'Reveal Active File';
+  private revealActiveFileTooltips = 'Reveal Active File In Navigation';
 
   private fileExplorerRevealButton: HTMLElement | undefined;
   private viewActionsRevealButton: HTMLElement | undefined;
