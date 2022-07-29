@@ -1,3 +1,4 @@
+import { Settings } from "src/interfaces/settings";
 import FileExplorerProPlugin from "src/main";
 import { CommandIds } from "src/obsidian/obsidian-constants";
 import { ElementFactory } from "src/utils/element-factory";
@@ -12,16 +13,12 @@ export class RevealActiveFileManager {
 
   constructor(private plugin: FileExplorerProPlugin) { }
 
-  init() {
-    this.addButtons();
+  init(settings: Settings) {
+    this.showFileExplorerRevealButton(settings.showFileExplorerRevealButton);
+    this.showViewActionsRevealButton(settings.showViewActionsRevealButton);
   }
 
-  private addButtons() {
-    this.showFileExplorerRevealButton(this.plugin.settings.showFileExplorerRevealButton);
-    this.showViewActionsRevealButton(this.plugin.settings.showViewActionsRevealButton);
-  }
-
-  showFileExplorerRevealButton(show: boolean) {
+  private showFileExplorerRevealButton(show: boolean) {
     // - This happens when user change the settings, we need to remove the existing button
     // > User want to hide button, but button exists. We need to remove it
     if (!show && this.fileExplorerRevealButton) {
@@ -56,7 +53,7 @@ export class RevealActiveFileManager {
     this.fileExplorerRevealButton = button;
   }
 
-  showViewActionsRevealButton(show: boolean) {
+  private showViewActionsRevealButton(show: boolean) {
     // - This happens when user change the settings, we need to remove the existing button
     // > User want to hide button, but button exists. We need to remove it
     if (!show && this.viewActionsRevealButton) {

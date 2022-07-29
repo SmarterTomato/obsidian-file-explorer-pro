@@ -1,28 +1,35 @@
 import { Plugin } from 'obsidian';
+import { DeleteSelectedFilesManager } from './features/delete-selected-files/delete-selected-files.manager';
+import { RevealActiveFileManager } from './features/reveal-active-file/reveal-active-file.manager';
 import { Settings } from './interfaces/settings';
-import { RevealActiveFileManager } from './features/reveal-active-file/file-explorer-manager';
-import { HtmlSelector, ViewType } from './obsidian/obsidian-constants';
+import { HtmlSelector } from './obsidian/obsidian-constants';
 import { SettingTab } from './settings/setting-tab';
 
 
 const DEFAULT_SETTINGS: Settings = {
 	showFileExplorerRevealButton: true,
-	showViewActionsRevealButton: true
+	showViewActionsRevealButton: true,
+	enableDeleteSelectedFiles: true,
 };
 
 export default class FileExplorerProPlugin extends Plugin {
 	settings: Settings;
 
 	revealActiveFileManager: RevealActiveFileManager;
+	deleteSelectedFilesManager: DeleteSelectedFilesManager;
 
 	async onload() {
 		await this.loadSettings();
 
-		// - Add button to file explorer
+		// - Add reveal file button to file explorer
 		this.revealActiveFileManager = new RevealActiveFileManager(this);
 		this.app.workspace.onLayoutReady(() => {
-			this.revealActiveFileManager.init();
+			this.revealActiveFileManager.init(this.settings);
 		});
+
+		// - Add delete selected items command
+		this.deleteSelectedFilesManager = new DeleteSelectedFilesManager(this);
+		this.deleteSelectedFilesManager.init(this.settings);
 
 		// - Add obsidian setting page
 		this.addSettingTab(new SettingTab(this.app, this));
@@ -33,11 +40,11 @@ export default class FileExplorerProPlugin extends Plugin {
 	}
 
 	getFileExplorer() {
-		return this.app.workspace.getLeavesOfType(ViewType.FileExplorer).first();
+		return this.app.workspace.getLeavesOfType('file-explorer')?.first();
 	}
 
 	getMarkdown() {
-		return this.app.workspace.getLeavesOfType(ViewType.Markdown).first();
+		return this.app.workspace.getLeavesOfType('markdown')?.first();
 	}
 
 	getNavButtonsContainer() {
