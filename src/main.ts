@@ -1,6 +1,6 @@
 import { Plugin } from 'obsidian';
 import { Settings } from './interfaces/settings';
-import { FileExplorerManager } from './managers/file-explorer-manager';
+import { RevealActiveFileManager } from './features/reveal-active-file/file-explorer-manager';
 import { HtmlSelector, ViewType } from './obsidian/obsidian-constants';
 import { SettingTab } from './settings/setting-tab';
 
@@ -13,15 +13,15 @@ const DEFAULT_SETTINGS: Settings = {
 export default class FileExplorerProPlugin extends Plugin {
 	settings: Settings;
 
-	fileExplorerManager: FileExplorerManager;
+	revealActiveFileManager: RevealActiveFileManager;
 
 	async onload() {
 		await this.loadSettings();
 
 		// - Add button to file explorer
-		this.fileExplorerManager = new FileExplorerManager(this);
+		this.revealActiveFileManager = new RevealActiveFileManager(this);
 		this.app.workspace.onLayoutReady(() => {
-			this.fileExplorerManager.init();
+			this.revealActiveFileManager.init();
 		});
 
 		// - Add obsidian setting page

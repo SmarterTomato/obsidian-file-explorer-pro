@@ -22,7 +22,7 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showFileExplorerRevealButton)
         .onChange(async (value) => {
           this.plugin.settings.showFileExplorerRevealButton = value;
-          this.plugin.fileExplorerManager.showFileExplorerRevealButton(value);
+          this.plugin.revealActiveFileManager.showFileExplorerRevealButton(value);
           await this.plugin.saveSettings();
         }));
 
@@ -32,7 +32,7 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showFileExplorerRevealButton)
         .onChange(async (value) => {
           this.plugin.settings.showViewActionsRevealButton = value;
-          this.plugin.fileExplorerManager.showViewActionsRevealButton(value);
+          this.plugin.revealActiveFileManager.showViewActionsRevealButton(value);
           await this.plugin.saveSettings();
         }));
   }
