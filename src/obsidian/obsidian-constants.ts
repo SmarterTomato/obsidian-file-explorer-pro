@@ -1,10 +1,3 @@
-// - View type can be found in html search for `data-type`
-export const ViewType = {
-  Search: 'search',
-  FileExplorer: 'file-explorer',
-  Markdown: 'markdown'
-};
-
 export const HtmlSelector = {
   NavButtonsContainer: 'div.nav-buttons-container',
   ViewActionsContainer: 'div.view-actions'

@@ -22,7 +22,7 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showFileExplorerRevealButton)
         .onChange(async (value) => {
           this.plugin.settings.showFileExplorerRevealButton = value;
-          this.plugin.revealActiveFileManager.showFileExplorerRevealButton(value);
+          this.plugin.revealActiveFileManager.init(this.plugin.settings);
           await this.plugin.saveSettings();
         }));
 
@@ -32,7 +32,16 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.showFileExplorerRevealButton)
         .onChange(async (value) => {
           this.plugin.settings.showViewActionsRevealButton = value;
-          this.plugin.revealActiveFileManager.showViewActionsRevealButton(value);
+          this.plugin.revealActiveFileManager.init(this.plugin.settings);
+          await this.plugin.saveSettings();
+        }));
+
+    new Setting(containerEl)
+      .setName('Enable Alt+Delete to Delete Selected Files in File Explorer')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.enableDeleteSelectedFiles)
+        .onChange(async (value) => {
+          this.plugin.settings.enableDeleteSelectedFiles = value;
           await this.plugin.saveSettings();
         }));
   }

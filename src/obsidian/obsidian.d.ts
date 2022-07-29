@@ -1,4 +1,4 @@
-import { View, WorkspaceLeaf } from "obsidian";
+import { Command, TFile, View, WorkspaceLeaf } from "obsidian";
 
 declare module 'obsidian' {
   interface App {
@@ -6,16 +6,35 @@ declare module 'obsidian' {
   }
 
   interface Workspace {
-    getLeavesOfType(viewType: 'search' | 'file-explorer' | 'markdown'): ExplorerLeaf[];
+    // - View type can be found in html search for `data-type`
+    getLeavesOfType(viewType: 'file-explorer'): FileExplorerLeaf[] | null;
+    getLeavesOfType(viewType: 'markdown'): WorkspaceLeaf[] | null;
   }
+
+  interface FileManager {
+    trashFile(file: TFile): Promise<void>;
+  }
+
+  interface TFile {
+    path: string;
+  }
+
 }
 
-interface ExplorerLeaf extends WorkspaceLeaf {
-  view: View;
+interface FileExplorerLeaf extends WorkspaceLeaf {
+  view: FileExplorerView;
+}
+
+interface FileExplorerView extends View {
+  selectedDoms: FileExplorerDom[];
+}
+
+interface FileExplorerDom {
+  file: TFile;
 }
 
 interface Commands {
-  commands: [];
+  commands: Command[];
 
   executeCommandById(commandId: string): boolean;
 }
