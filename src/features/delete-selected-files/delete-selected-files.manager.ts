@@ -1,24 +1,25 @@
+import { Notice } from "obsidian";
 import { Settings } from "src/interfaces/settings";
-import FileExplorerProPlugin from "src/main";
+import { FileExplorerProPlugin } from "src/main";
 
 export class DeleteSelectedFilesManager {
   commandId = 'delete-selected-files';
-  name = 'Delete Selected Files in File Explorer';
+  commandName = 'Delete Selected Files in File Explorer';
 
   constructor(private plugin: FileExplorerProPlugin) {
 
   }
 
   init(settings: Settings) {
-    if (settings.enableDeleteSelectedFiles) {
-      this.registerCommand();
-    }
+    if (!settings.enableDeleteSelectedFiles) return;
+
+    this.registerCommand();
   }
 
   private registerCommand() {
     this.plugin.addCommand({
       id: this.commandId,
-      name: this.name,
+      name: this.commandName,
       hotkeys: [{ modifiers: ["Alt"], key: "delete" }],
       callback: () => this.deleteSelectedFiles()
     });
@@ -40,7 +41,8 @@ export class DeleteSelectedFilesManager {
       try {
         await this.plugin.app.fileManager.trashFile(file);
       } catch (error) {
-        console.error(error);
+        console.error({ message: 'Failed to delete file', file, error });
+        new Notice('Failed to delete file');
       }
     }
   }
