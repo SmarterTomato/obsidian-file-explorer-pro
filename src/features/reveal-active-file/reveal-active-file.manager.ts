@@ -13,19 +13,22 @@ export class RevealActiveFileManager {
   constructor(private plugin: FileExplorerProPlugin) { }
 
   showFileExplorerRevealButton(show: boolean) {
+    const isFileOpened = !!this.plugin.getActiveFile();
+
     // - This happens when user change the settings, we need to remove the existing button
     // > User want to hide button, but button exists. We need to remove it
-    if (!show && this.fileExplorerRevealButton) {
+    if ((!show || !isFileOpened) && this.fileExplorerRevealButton) {
       this.fileExplorerRevealButton.remove();
       this.fileExplorerRevealButton = undefined;
       return;
-    }
-    // > User want to user button and button already exists
-    else if (show && this.fileExplorerRevealButton) {
-      return;
-    }
-    // > User want to hide the button, and button not exists. Nothing to do
-    else if (!show) {
+    } else if (
+      // > User want to user button and button already exists. Nothing to do
+      (show && this.fileExplorerRevealButton) ||
+      // > User want to hide the button, and button not exists. Nothing to do
+      !show ||
+      // > No file opened
+      !isFileOpened
+    ) {
       return;
     }
 
@@ -55,7 +58,6 @@ export class RevealActiveFileManager {
    * @returns 
    */
   showViewActionsRevealButton(show: boolean) {
-
     const isFileOpened = !!this.plugin.getActiveFile();
 
     // > User want to hide button or no file is opened, but button exists. We need to remove it
