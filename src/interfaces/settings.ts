@@ -10,4 +10,7 @@ export interface Settings {
   autoUpdateFirstHeader: boolean;
   addUpdateFirstHeaderCommand: boolean;
   ignoreTimestamp: boolean;
+
+  // - Smarter file rename
+  enableSmarterFileRename: boolean;
 }

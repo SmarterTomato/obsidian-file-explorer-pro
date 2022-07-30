@@ -26,7 +26,9 @@ interface FileExplorerLeaf extends WorkspaceLeaf {
 }
 
 interface FileExplorerView extends View {
+  activeDom: FileExplorerDom | null;
   selectedDoms: FileExplorerDom[];
+  startRenameFile(file: TFile): Promise<void>;
 }
 
 interface FileExplorerDom {

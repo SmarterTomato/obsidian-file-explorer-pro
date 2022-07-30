@@ -41,8 +41,9 @@ export class DeleteSelectedFilesManager {
       try {
         await this.plugin.app.fileManager.trashFile(file);
       } catch (error) {
-        console.error({ message: 'Failed to delete file', file, error });
-        new Notice('Failed to delete file');
+        const message = 'Failed to delete file';
+        console.error({ message, file, error });
+        new Notice(message);
       }
     }
   }
