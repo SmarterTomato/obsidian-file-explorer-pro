@@ -47,14 +47,16 @@ export class UpdateFirstHeaderManager {
     this.renameHeader(this.plugin.getActiveFile());
   }
 
-  private async renameHeader(file: TFile | TFolder | null) {
+  private async renameHeader(renamedItem: TFile | TFolder | null) {
+    if (!renamedItem) return;
+
+    // - Ignore renamed folder. Nothing to update
+    const isFolder = !!((<TFolder>renamedItem).children);
+    if (isFolder) return;
+
+    const file = <TFile>renamedItem;
+
     try {
-      if (!file) return;
-
-      // - Ignore renamed folder. Nothing to update
-      const isFolder = !!((<TFolder>file).children);
-      if (isFolder) return;
-
       // - If ignore timestamp is enabled, remove all numbers at the beginning
       let heading = file.basename;
       if (this.plugin.settings.ignoreTimestamp) {
