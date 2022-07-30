@@ -1,4 +1,4 @@
-import { Notice, TFile } from "obsidian";
+import { Notice, TFile, TFolder } from "obsidian";
 import { Settings } from "src/interfaces/settings";
 import { FileExplorerProPlugin } from "src/main";
 
@@ -47,9 +47,13 @@ export class UpdateFirstHeaderManager {
     this.renameHeader(this.plugin.getActiveFile());
   }
 
-  private async renameHeader(file: TFile | null) {
+  private async renameHeader(file: TFile | TFolder | null) {
     try {
       if (!file) return;
+
+      // - Ignore renamed folder. Nothing to update
+      const isFolder = !!((<TFolder>file).children);
+      if (isFolder) return;
 
       // - If ignore timestamp is enabled, remove all numbers at the beginning
       let heading = file.basename;
