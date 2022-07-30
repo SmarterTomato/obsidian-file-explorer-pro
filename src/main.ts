@@ -1,6 +1,7 @@
 import { Plugin } from 'obsidian';
 import { DeleteSelectedFilesManager } from './features/delete-selected-files/delete-selected-files.manager';
 import { RevealActiveFileManager } from './features/reveal-active-file/reveal-active-file.manager';
+import { SmarterFileRenameManager } from './features/smarter-file-rename/smarter-file-rename.manager';
 import { UpdateFirstHeaderManager } from './features/update-first-header/update-first-header.manager';
 import { Settings } from './interfaces/settings';
 import { HtmlSelector } from './obsidian/obsidian-constants';
@@ -14,6 +15,7 @@ const DEFAULT_SETTINGS: Settings = {
 	addUpdateFirstHeaderCommand: true,
 	autoUpdateFirstHeader: true,
 	ignoreTimestamp: true,
+	enableSmarterFileRename: true,
 };
 
 export class FileExplorerProPlugin extends Plugin {
@@ -22,13 +24,18 @@ export class FileExplorerProPlugin extends Plugin {
 	revealActiveFileManager: RevealActiveFileManager;
 	deleteSelectedFilesManager: DeleteSelectedFilesManager;
 	updateFirstHeaderManager: UpdateFirstHeaderManager;
+	smarterFileRenameManager: SmarterFileRenameManager;
 
 	async onload() {
 		await this.loadSettings();
 
-		// - Add reveal file button to file explorer
 		this.revealActiveFileManager = new RevealActiveFileManager(this);
+		this.deleteSelectedFilesManager = new DeleteSelectedFilesManager(this);
+		this.updateFirstHeaderManager = new UpdateFirstHeaderManager(this);
+		this.smarterFileRenameManager = new SmarterFileRenameManager(this);
+
 		this.app.workspace.onLayoutReady(() => {
+			// - Add reveal file button to file explorer
 			this.revealActiveFileManager.showFileExplorerRevealButton(this.settings.showFileExplorerRevealButton);
 		});
 
@@ -38,12 +45,13 @@ export class FileExplorerProPlugin extends Plugin {
 		});
 
 		// - Add delete selected items command
-		this.deleteSelectedFilesManager = new DeleteSelectedFilesManager(this);
 		this.deleteSelectedFilesManager.init(this.settings);
 
 		// - Auto rename file header
-		this.updateFirstHeaderManager = new UpdateFirstHeaderManager(this);
 		this.updateFirstHeaderManager.init(this.settings);
+
+		// - Smarter rename file
+		this.smarterFileRenameManager.init(this.settings);
 
 		// - Add obsidian setting page
 		this.addSettingTab(new SettingTab(this.app, this));

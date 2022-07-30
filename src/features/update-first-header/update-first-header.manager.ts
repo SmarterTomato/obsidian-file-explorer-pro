@@ -56,24 +56,26 @@ export class UpdateFirstHeaderManager {
 
     const file = <TFile>renamedItem;
 
+
+    // - If ignore timestamp is enabled, remove all numbers at the beginning
+    let heading = file.basename;
+    if (this.plugin.settings.ignoreTimestamp) {
+      heading = heading.replace(/[0-9-_]*/, '');
+    }
+
+    // - Read the file as text
+    let markdownContent = await this.plugin.app.vault.read(file);
+
+    // - Replace first heading with the new heading
+    markdownContent = markdownContent.replace(/#\s.*/, `# ${heading}`);
+
+    // - Write back to the file
     try {
-      // - If ignore timestamp is enabled, remove all numbers at the beginning
-      let heading = file.basename;
-      if (this.plugin.settings.ignoreTimestamp) {
-        heading = heading.replace(/[0-9-_]*/, '');
-      }
-
-      // - Read the file as text
-      let markdownContent = await this.plugin.app.vault.read(file);
-
-      // - Replace first heading with the new heading
-      markdownContent = markdownContent.replace(/#\s.*/, `# ${heading}`);
-
-      // - Write back to the file
       await this.plugin.app.vault.modify(file, markdownContent);
     } catch (error) {
-      console.error({ message: 'Failed to rename header', file, error });
-      new Notice('Failed to rename header');
+      const message = 'Failed to rename header';
+      console.error({ message, file, error });
+      new Notice(message);
     }
   }
 }

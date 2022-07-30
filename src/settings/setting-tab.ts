@@ -30,7 +30,7 @@ export class SettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName('Show Reveal Active File Button in View Actions')
       .addToggle(toggle => toggle
-        .setValue(this.plugin.settings.showFileExplorerRevealButton)
+        .setValue(this.plugin.settings.showViewActionsRevealButton)
         .onChange(async (value) => {
           this.plugin.settings.showViewActionsRevealButton = value;
           this.plugin.revealActiveFileManager.showViewActionsRevealButton(value);
@@ -44,7 +44,7 @@ export class SettingTab extends PluginSettingTab {
       .setDesc(
         'Requires restart obsidian. ' +
         'Add a command to delete selected files in file explorer. ' +
-        'Default hotkey is "Alt+Delete". ')
+        'Default hotkey is "Alt + Delete". ')
       .addToggle(toggle => toggle
         .setValue(this.plugin.settings.enableDeleteSelectedFiles)
         .onChange(async (value) => {
@@ -87,6 +87,23 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.ignoreTimestamp)
         .onChange(async (value) => {
           this.plugin.settings.ignoreTimestamp = value;
+          await this.plugin.saveSettings();
+        }));
+
+    containerEl.createEl('h3', { text: 'Rename file' });
+
+    new Setting(containerEl)
+      .setName('Enable Smarter File Rename')
+      .setDesc(
+        'Requires restart obsidian. ' +
+        'Add a command to make rename smarter. ' +
+        'Rename file when focus on file explorer. ' +
+        'Edit file title when focus on markdown editor. ' +
+        'Default hot key is "Alt + F2". You can remap hotkey in settings to "F2", make it replace "Edit file title".')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.enableSmarterFileRename)
+        .onChange(async (value) => {
+          this.plugin.settings.enableSmarterFileRename = value;
           await this.plugin.saveSettings();
         }));
   }
