@@ -34,13 +34,11 @@ export class FileExplorerProPlugin extends Plugin {
 		this.updateFirstHeaderManager = new UpdateFirstHeaderManager(this);
 		this.smarterFileRenameManager = new SmarterFileRenameManager(this);
 
-		this.app.workspace.onLayoutReady(() => {
+		this.app.workspace.on('layout-change', () => {
 			// - Add reveal file button to file explorer
 			this.revealActiveFileManager.showFileExplorerRevealButton(this.settings.showFileExplorerRevealButton);
-		});
 
-		// - Show reveal file button to view actions only if some file is opened
-		this.app.workspace.on('layout-change', () => {
+			// - Show reveal file button to view actions only if some file is opened
 			this.revealActiveFileManager.showViewActionsRevealButton(this.settings.showViewActionsRevealButton);
 		});
 
