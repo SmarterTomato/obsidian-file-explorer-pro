@@ -1,10 +1,10 @@
 import { Plugin } from 'obsidian';
+import { CollapseExpandAllManager } from './features/collapse-expand-all/collapse-expand-all.manager';
 import { DeleteSelectedFilesManager } from './features/delete-selected-files/delete-selected-files.manager';
 import { RevealActiveFileManager } from './features/reveal-active-file/reveal-active-file.manager';
 import { SmarterFileRenameManager } from './features/smarter-file-rename/smarter-file-rename.manager';
 import { UpdateFirstHeaderManager } from './features/update-first-header/update-first-header.manager';
 import { Settings } from './interfaces/settings';
-import { HtmlSelector } from './obsidian/obsidian-constants';
 import { SettingTab } from './settings/setting-tab';
 
 
@@ -16,6 +16,8 @@ const DEFAULT_SETTINGS: Settings = {
 	autoUpdateFirstHeader: true,
 	ignoreTimestamp: true,
 	enableSmarterFileRename: true,
+	showCollapseAndExpandAllInFileExplorer: true,
+	showCollapseAndExpandAllInTagPane: true,
 };
 
 export class FileExplorerProPlugin extends Plugin {
@@ -25,6 +27,7 @@ export class FileExplorerProPlugin extends Plugin {
 	deleteSelectedFilesManager: DeleteSelectedFilesManager;
 	updateFirstHeaderManager: UpdateFirstHeaderManager;
 	smarterFileRenameManager: SmarterFileRenameManager;
+	collapseExpandAllManager: CollapseExpandAllManager;
 
 	async onload() {
 		await this.loadSettings();
@@ -33,6 +36,12 @@ export class FileExplorerProPlugin extends Plugin {
 		this.deleteSelectedFilesManager = new DeleteSelectedFilesManager(this);
 		this.updateFirstHeaderManager = new UpdateFirstHeaderManager(this);
 		this.smarterFileRenameManager = new SmarterFileRenameManager(this);
+		this.collapseExpandAllManager = new CollapseExpandAllManager(this);
+
+		this.app.workspace.onLayoutReady(() => {
+			// - Show collapse and expand all button
+			this.collapseExpandAllManager.init(this.settings);
+		});
 
 		this.app.workspace.on('layout-change', () => {
 			// - Add reveal file button to file explorer
@@ -57,26 +66,6 @@ export class FileExplorerProPlugin extends Plugin {
 
 	onunload() {
 
-	}
-
-	getFileExplorer() {
-		return this.app.workspace.getLeavesOfType('file-explorer')?.first();
-	}
-
-	getMarkdown() {
-		return this.app.workspace.getLeavesOfType('markdown')?.first();
-	}
-
-	getNavButtonsContainer() {
-		return this.getFileExplorer()?.view.containerEl.querySelector(HtmlSelector.NavButtonsContainer);
-	}
-
-	getViewActionsContainer() {
-		return this.getMarkdown()?.view.containerEl.querySelector(HtmlSelector.ViewActionsContainer);
-	}
-
-	getActiveFile() {
-		return this.app.workspace.getActiveFile();
 	}
 
 	async loadSettings() {

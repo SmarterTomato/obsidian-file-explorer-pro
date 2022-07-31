@@ -1,10 +1,11 @@
 import { FileExplorerProPlugin } from "src/main";
 import { CommandIds } from "src/obsidian/obsidian-constants";
+import { ObsidianUtils } from "src/obsidian/obsidian-utils";
 import { ElementFactory } from "src/utils/element-factory";
 import { Icons } from "src/utils/icons";
 
 export class RevealActiveFileManager {
-  private revealActiveFileIcon = Icons.MyLocation;
+  private revealActiveFileIcon = Icons.LocationCrosshairs;
   private revealActiveFileTooltips = 'Reveal Active File In Navigation';
 
   private fileExplorerRevealButton: HTMLElement | undefined;
@@ -13,7 +14,7 @@ export class RevealActiveFileManager {
   constructor(private plugin: FileExplorerProPlugin) { }
 
   showFileExplorerRevealButton(show: boolean) {
-    const isFileOpened = !!this.plugin.getActiveFile();
+    const isFileOpened = !!ObsidianUtils.getActiveFile(this.plugin);
 
     // - This happens when user change the settings, we need to remove the existing button
     // > User want to hide button, but button exists. We need to remove it
@@ -33,7 +34,7 @@ export class RevealActiveFileManager {
     }
 
     // - Get nav container in the file explorer
-    const container = this.plugin.getNavButtonsContainer();
+    const container = ObsidianUtils.getFileExplorerNavButtonsContainer(this.plugin);
     if (!container) {
       // This technically should not happen
       console.error('File Explorer not found');
@@ -58,7 +59,7 @@ export class RevealActiveFileManager {
    * @returns 
    */
   showViewActionsRevealButton(show: boolean) {
-    const isFileOpened = !!this.plugin.getActiveFile();
+    const isFileOpened = !!ObsidianUtils.getActiveFile(this.plugin);
 
     // > User want to hide button or no file is opened, but button exists. We need to remove it
     if ((!show || !isFileOpened) && this.viewActionsRevealButton) {
@@ -78,7 +79,7 @@ export class RevealActiveFileManager {
     }
 
     // - Get nav container in the view actions
-    const container = this.plugin.getViewActionsContainer();
+    const container = ObsidianUtils.getViewActionsContainer(this.plugin);
     if (!container) {
       // This technically should not happen
       console.error('View Actions not found');

@@ -1,6 +1,7 @@
 import { Notice, TFile, TFolder } from "obsidian";
 import { Settings } from "src/interfaces/settings";
 import { FileExplorerProPlugin } from "src/main";
+import { ObsidianUtils } from "src/obsidian/obsidian-utils";
 
 export class UpdateFirstHeaderManager {
   commandId = 'update-first-header';
@@ -27,7 +28,7 @@ export class UpdateFirstHeaderManager {
       hotkeys: [{ modifiers: ["Alt"], key: "h" }],
       checkCallback: (checking) => {
         if (checking) {
-          return !!this.plugin.getActiveFile();
+          return !!ObsidianUtils.getActiveFile(this.plugin);
         }
 
         this.renameThisFileFirstHeader();
@@ -38,13 +39,13 @@ export class UpdateFirstHeaderManager {
   private autoRename(settings: Settings) {
     if (!settings.autoUpdateFirstHeader) return;
 
-    this.plugin.registerEvent(
-      this.plugin.app.vault.on('rename', this.renameHeader.bind(this))
-    );
+    // this.plugin.registerEvent(
+    this.plugin.app.vault.on('rename', this.renameHeader.bind(this))
+    // );
   }
 
   private renameThisFileFirstHeader() {
-    this.renameHeader(this.plugin.getActiveFile());
+    this.renameHeader(ObsidianUtils.getActiveFile(this.plugin));
   }
 
   private async renameHeader(renamedItem: TFile | TFolder | null) {

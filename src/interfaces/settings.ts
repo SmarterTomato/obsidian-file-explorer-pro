@@ -13,4 +13,8 @@ export interface Settings {
 
   // - Smarter file rename
   enableSmarterFileRename: boolean;
+
+  // - Collapse and expand all
+  showCollapseAndExpandAllInFileExplorer: boolean;
+  showCollapseAndExpandAllInTagPane: boolean;
 }

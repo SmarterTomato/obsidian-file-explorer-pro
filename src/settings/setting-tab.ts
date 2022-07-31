@@ -15,6 +15,7 @@ export class SettingTab extends PluginSettingTab {
     containerEl.empty();
     containerEl.createEl('h2', { text: 'File Explorer Pro Settings' });
 
+    // --------------------------------------------------
     containerEl.createEl('h3', { text: 'Reveal Active File' });
 
     new Setting(containerEl)
@@ -37,6 +38,7 @@ export class SettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         }));
 
+    // --------------------------------------------------
     containerEl.createEl('h3', { text: 'Delete Selected Files' });
 
     new Setting(containerEl)
@@ -52,6 +54,7 @@ export class SettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         }));
 
+    // --------------------------------------------------
     containerEl.createEl('h3', { text: 'Auto File Header' });
 
     new Setting(containerEl)
@@ -90,6 +93,7 @@ export class SettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         }));
 
+    // --------------------------------------------------
     containerEl.createEl('h3', { text: 'Rename file' });
 
     new Setting(containerEl)
@@ -104,6 +108,29 @@ export class SettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.enableSmarterFileRename)
         .onChange(async (value) => {
           this.plugin.settings.enableSmarterFileRename = value;
+          await this.plugin.saveSettings();
+        }));
+
+    // --------------------------------------------------
+    containerEl.createEl('h3', { text: 'Collapse and Expand All' });
+
+    new Setting(containerEl)
+      .setName('Show Collapse and Expand All Button in File Explorer')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.showCollapseAndExpandAllInFileExplorer)
+        .onChange(async (value) => {
+          this.plugin.settings.showCollapseAndExpandAllInFileExplorer = value;
+          this.plugin.collapseExpandAllManager.initFileExplorer(value);
+          await this.plugin.saveSettings();
+        }));
+
+    new Setting(containerEl)
+      .setName('Show Collapse and Expand All Button in Tag Pane')
+      .addToggle(toggle => toggle
+        .setValue(this.plugin.settings.showCollapseAndExpandAllInTagPane)
+        .onChange(async (value) => {
+          this.plugin.settings.showCollapseAndExpandAllInTagPane = value;
+          this.plugin.collapseExpandAllManager.initTagPane(value);
           await this.plugin.saveSettings();
         }));
   }
