@@ -20,6 +20,7 @@ export class SmarterFileRenameManager {
       name: this.commandName,
       hotkeys: [{ modifiers: ['Alt'], key: "F2" }],
       checkCallback: (checking) => {
+        // Todo: Not sure how to get the file explorer leaf, update later
         const activeLeaf = this.plugin.app.workspace.activeLeaf;
         if (!activeLeaf) return false;
 
@@ -56,6 +57,7 @@ export class SmarterFileRenameManager {
     }
 
     const file = activeDom.file;
+
     try {
       await fileExplorer.view.startRenameFile(file);
     } catch (error) {
