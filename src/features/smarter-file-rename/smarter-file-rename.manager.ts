@@ -2,6 +2,7 @@ import { Notice } from "obsidian";
 import { Settings } from "src/interfaces/settings";
 import { FileExplorerProPlugin } from "src/main";
 import { CommandIds, ViewType } from "src/obsidian/obsidian-constants";
+import { ObsidianUtils } from "src/obsidian/obsidian-utils";
 
 export class SmarterFileRenameManager {
   commandId = 'smarter-file-rename';
@@ -42,7 +43,7 @@ export class SmarterFileRenameManager {
   }
 
   private async renameFile() {
-    const fileExplorer = this.plugin.getFileExplorer();
+    const fileExplorer = ObsidianUtils.getFileExplorer(this.plugin);
     if (!fileExplorer) {
       console.error('File explorer not found');
       return;

@@ -2,12 +2,13 @@
 export const ViewType = {
   Search: 'search',
   FileExplorer: 'file-explorer',
-  Markdown: 'markdown'
+  Markdown: 'markdown',
+  Tag: 'tag',
 };
 
 export const HtmlSelector = {
   NavButtonsContainer: 'div.nav-buttons-container',
-  ViewActionsContainer: 'div.view-actions'
+  ViewActionsContainer: 'div.view-actions',
 };
 
 // - Command ids can be found in `plugin.app.commands`

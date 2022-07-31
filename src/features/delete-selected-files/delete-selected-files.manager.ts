@@ -1,6 +1,7 @@
 import { Notice } from "obsidian";
 import { Settings } from "src/interfaces/settings";
 import { FileExplorerProPlugin } from "src/main";
+import { ObsidianUtils } from "src/obsidian/obsidian-utils";
 
 export class DeleteSelectedFilesManager {
   commandId = 'delete-selected-files';
@@ -27,7 +28,7 @@ export class DeleteSelectedFilesManager {
 
   private async deleteSelectedFiles() {
     // - Get the file explorer
-    const fileExplorer = this.plugin.getFileExplorer();
+    const fileExplorer = ObsidianUtils.getFileExplorer(this.plugin);
     if (!fileExplorer) {
       console.error('File explorer not found');
       return;
