@@ -1,8 +1,12 @@
 # Obsidian File Explorer Pro
 
----
-
 ## Features
+
+- Reveal active file in file explorer
+- Delete selected files in file explorer
+- Update first file header
+- Smarter file rename
+- Collapse and expand all
 
 ### Reveal active file in file explorer
 
@@ -63,6 +67,12 @@
 <img src="https://raw.githubusercontent.com/SmarterTomato/obsidian-file-explorer-pro/main/resources/readme/Pasted_image_20220731150523.png">
 
 <img src="https://raw.githubusercontent.com/SmarterTomato/obsidian-file-explorer-pro/main/resources/readme/Pasted_image_20220731150553.png">
+
+## Bug report
+
+- Create an issue in GitHub
+- Or send email to: smartertomato@hotmail.com
+- I will fix asap, please provide as much details as possible.
 
 ## Future plans
 
