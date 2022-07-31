@@ -1,10 +1,10 @@
 {
 	"id": "obsidian-file-explorer-pro",
 	"name": "File Explorer Pro",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.12.0",
 	"description": "Enhance the obsidian file explorer",
 	"author": "Smarter Tomato",
-	"authorUrl": "https://github.com/tommywkzhao/obsidian-file-explorer-pro",
+	"authorUrl": "https://github.com/smartertomato/obsidian-file-explorer-pro",
 	"isDesktopOnly": false
 }
