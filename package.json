@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.1",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "obsidian-file-explorer-pro",
+	"version": "1.0.2",
+	"description": "Enhance the obsidian file explorer",
 	"main": "dist/main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -11,7 +11,7 @@
 		"copy-to-dist": "cpx src/styles.css dist && cpx manifest.json dist"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Smarter Tomato",
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
