@@ -35,6 +35,13 @@ export class CollapseExpandAllManager {
     this.collapseButtonTagPane = this.addTagPaneButton(show, this.collapseButtonTagPane, this.collapseIcon, this.collapseTooltips, this.collapseTagsItems);
   }
 
+  unload() {
+    this.expandButtonFileExplorer?.remove();
+    this.collapseButtonFileExplorer?.remove();
+    this.expandButtonTagPane?.remove();
+    this.collapseButtonTagPane?.remove();
+  }
+
   private addTagPaneButton(
     show: boolean,
     existingButton: HTMLElement | undefined,

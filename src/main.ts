@@ -65,7 +65,8 @@ export class FileExplorerProPlugin extends Plugin {
 	}
 
 	onunload() {
-
+		this.revealActiveFileManager.unload();
+		this.collapseExpandAllManager.unload();
 	}
 
 	async loadSettings() {

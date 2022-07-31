@@ -56,7 +56,8 @@ export class UpdateFirstHeaderManager {
     if (isFolder) return;
 
     const file = <TFile>renamedItem;
-
+    // Only works on markdown
+    if (file.extension !== 'md') return
 
     // - If ignore timestamp is enabled, remove all numbers at the beginning
     let heading = file.basename;

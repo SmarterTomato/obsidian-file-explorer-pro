@@ -13,6 +13,11 @@ export class RevealActiveFileManager {
 
   constructor(private plugin: FileExplorerProPlugin) { }
 
+  unload() {
+    this.fileExplorerRevealButton?.remove();
+    this.viewActionsRevealButton?.remove();
+  }
+
   showFileExplorerRevealButton(show: boolean) {
     const isFileOpened = !!ObsidianUtils.getActiveFile(this.plugin);
 
@@ -81,8 +86,7 @@ export class RevealActiveFileManager {
     // - Get nav container in the view actions
     const container = ObsidianUtils.getViewActionsContainer(this.plugin);
     if (!container) {
-      // This technically should not happen
-      console.error('View Actions not found');
+      // If opened file is non-markdown
       return;
     }
 
@@ -95,7 +99,6 @@ export class RevealActiveFileManager {
     container.insertBefore(button, container.firstChild);
     this.viewActionsRevealButton = button;
   }
-
 
   private revealActiveFile() {
     this.plugin.app.commands.executeCommandById(CommandIds.FileExplorer.RevealActiveFile);
